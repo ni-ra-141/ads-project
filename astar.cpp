@@ -16,13 +16,16 @@ static bool astarLeg(const Graph& g, int s, int t, int leg, Result& r, bool reco
     set<pair<double, int>> open;
     int expandedBefore = r.expanded;
 
-    auto h = [&](int v) { return g.scale * hypot(g.x[v] - g.x[t], g.y[v] - g.y[t]); };
+    auto h = [&](int v) { 
+        return g.scale * hypot(g.x[v] - g.x[t], g.y[v] - g.y[t]); 
+    };
+    
     auto snapshot = [&](int cur, const vector<QItem>& upd, const vector<int>& path) {
-        if (!record) return;
+        if(!record) return;
         Step st;
         st.leg = leg;
         st.cur = cur;
-        for (auto& p : open) st.queue.push_back({p.second, p.first, dist[p.second]});
+        for(auto& p : open) st.queue.push_back({p.second, p.first, dist[p.second]});
         st.updates = upd;
         st.closed = closedList;
         st.path = path;
@@ -34,7 +37,7 @@ static bool astarLeg(const Graph& g, int s, int t, int leg, Result& r, bool reco
     r.pushed++;
     snapshot(-1, {}, {});
 
-    while (!open.empty()) {
+    while(!open.empty()) {
         int u = open.begin()->second;
         open.erase(open.begin());
         closed[u] = true;
@@ -42,9 +45,9 @@ static bool astarLeg(const Graph& g, int s, int t, int leg, Result& r, bool reco
         r.expanded++;
 
         vector<QItem> upd;
-        if (u == t) {
+        if(u == t) {
             vector<int> p;
-            for (int v = t; v != -1; v = parent[v]) p.push_back(v);
+            for(int v = t; v != -1; v = parent[v]) p.push_back(v);
             reverse(p.begin(), p.end());
             r.cost += dist[t];
             r.legCost.push_back(dist[t]);
@@ -53,11 +56,11 @@ static bool astarLeg(const Graph& g, int s, int t, int leg, Result& r, bool reco
             snapshot(u, upd, p);
             return true;
         }
-        for (const Edge& e : g.adj[u]) {
-            if (closed[e.to]) continue;
+        for(const Edge& e : g.adj[u]) {
+            if(closed[e.to]) continue;
             double ng = dist[u] + e.w;
-            if (ng < dist[e.to]) {
-                if (dist[e.to] < INF) open.erase({dist[e.to] + h(e.to), e.to});
+            if(ng < dist[e.to]) {
+                if(dist[e.to] < INF) open.erase({dist[e.to] + h(e.to), e.to});
                 dist[e.to] = ng;
                 parent[e.to] = u;
                 double f = ng + h(e.to);
@@ -72,8 +75,8 @@ static bool astarLeg(const Graph& g, int s, int t, int leg, Result& r, bool reco
 }
 
 bool runAstar(const Graph& g, const vector<int>& route, Result& r, bool record) {
-    for (size_t i = 0; i + 1 < route.size(); i++)
-        if (!astarLeg(g, route[i], route[i + 1], (int)i, r, record)) {
+    for(size_t i = 0; i + 1 < route.size(); i++)
+        if(!astarLeg(g, route[i], route[i + 1], (int)i, r, record)) {
             r.failedLeg = (int)i;
             return false;
         }
