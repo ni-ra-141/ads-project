@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A* Pathfinding</title>
+<!--STYLE-->
+</head>
+<body>
+<header>
+  <h1>A* Pathfinding</h1>
+  <div class="route" id="route"></div>
+  <div class="controls">
+    <span class="count" id="count"></span>
+    <button id="reset">Reset</button>
+    <button id="prev">&larr; Previous</button>
+    <button id="next" class="primary">Next &rarr;</button>
+  </div>
+</header>
+<main>
+  <div class="graph" id="graph"></div>
+  <div class="side">
+    <div class="card"><h2>This step</h2><div class="msg" id="msg"></div></div>
+    <div class="card"><h2>Priority queue (lowest f first)</h2><div id="queue"></div></div>
+    <div class="card">
+      <h2>Legend</h2>
+      <div class="legend">
+        <span><i style="background:#fff"></i>unvisited</span>
+        <span><i style="background:var(--open)"></i>in queue</span>
+        <span><i style="background:var(--closed)"></i>visited</span>
+        <span><i style="background:var(--current)"></i>current</span>
+        <span><i class="ring" style="border-color:var(--start)"></i>start</span>
+        <span><i class="ring" style="border-color:var(--way)"></i>waypoint</span>
+        <span><i class="ring" style="border-color:var(--end)"></i>end</span>
+      </div>
+      <div class="hint" style="margin-top:8px">f = g + h. g = cost so far, h = straight-line estimate to the target. Keys: &larr; &rarr;</div>
+    </div>
+  </div>
+</main>
+<!--SCRIPT-->
+</body>
+</html>
